@@ -1,0 +1,4 @@
+name = Api Custom
+description = Api Custom
+core = 7.x
+package = Grosselle Modules

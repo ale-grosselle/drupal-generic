@@ -1,0 +1,37 @@
+
+name = Dentist Web site
+description = A flexible, recolorable theme with many regions.
+package = Core
+version = VERSION
+core = 7.x
+
+stylesheets[all][] = css/animate.css
+stylesheets[all][] = css/bootstrap.min.css
+stylesheets[all][] = css/font-awesome.min.css
+stylesheets[all][] = css/owl.carousel.min.css
+stylesheets[all][] = css/owl.theme.default.min.css
+stylesheets[all][] = css/responsive.css
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/swiper.min.css
+
+
+scripts[] = js/jquery-2.1.4.min.js
+scripts[] = js/jquery.validate.min.js
+scripts[] = js/owl.carousel.js
+scripts[] = js/slider-init.js
+scripts[] = js/swiper.min.js
+scripts[] = js/swiper-init.js
+scripts[] = js/bootstrap.min.js
+scripts[] = js/main.js
+
+regions[content] = Content
+regions[footer] = Footer
+
+settings[shortcut_module_link] = 0
+
+
+; Information added by Drupal.org packaging script on 2015-10-14
+version = "7.40"
+project = "drupal"
+datestamp = "1444866674"
+

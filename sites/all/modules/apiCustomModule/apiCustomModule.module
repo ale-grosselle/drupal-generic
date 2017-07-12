@@ -1,0 +1,54 @@
+<?php
+
+include "saveReg.inc";
+include "savePaper.inc";
+include "getCostTicket.inc";
+include "sendMail.inc";
+
+/**
+ * Implementation of hook_menu().
+ */
+function apiCustomModule_menu() {
+	$items['node/set/paper'] = array(
+			'type' => MENU_CALLBACK,
+			'access arguments' => array('access content'),
+			'page callback' => 'savePaper',  // Magic goes here
+	);
+	$items['node/set/register'] = array(
+			'type' => MENU_CALLBACK,
+			'access arguments' => array('access content'),
+			'page callback' => 'saveRegister',  // Magic goes here
+	);
+	$items['node/get/ticketCost'] = array(
+			'type' => MENU_CALLBACK,
+			'access arguments' => array('access content'),
+			'page callback' => 'getPrice',  // Magic goes here
+	);
+	$items['node/get/sendMailReg'] = array(
+			'type' => MENU_CALLBACK,
+			'access arguments' => array('access content'),
+			'page callback' => 'sendMailReg',  // Magic goes here
+	);
+	$items['node/get/sendMailPaper'] = array(
+		'type' => MENU_CALLBACK,
+		'access arguments' => array('access content'),
+		'page callback' => 'sendMailPaper',  // Magic goes here
+	);
+	$items['node/get/sendmail'] = array(
+		'type' => MENU_CALLBACK,
+		'access arguments' => array('access content'),
+		'page callback' => 'sendMailGeneric',  // Magic goes here
+	);
+	return $items;
+}
+
+/**
+ * Implements hook_mail().
+ */
+function apiCustomModule_mail($key, &$message, $params) {
+	$message['subject'] = $params['subject'];
+	$message['body'][] = $params['body'];
+	$message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed';
+	$message['headers']['MIME-Version'] = '1.0';
+	$message['headers']['Content-Transfer-Encoding'] = '8Bit';
+}

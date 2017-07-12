@@ -1,0 +1,6 @@
+name = Helpers Module
+description = My Personal Helpers
+scripts[] = javascript/main.js
+stylesheets[all][] = main.css
+core = 7.x
+package = Grosselle Modules

@@ -1,0 +1,132 @@
+<?php
+
+function getNodeIds($type, $byCreated = false, $desc = false) {
+	$nids = db_select('node', 'n')
+		->fields('n', array('nid'))
+		->fields('n', array('type'))
+		->condition('n.type', $type);
+	if($byCreated){
+		$nids->orderBy('created', $desc ? 'DESC' : 'ASC');//ORDER BY created
+	}
+	return $nids->execute()->fetchCol(); // returns an indexed array
+}
+
+function getNodeFromId($id) {
+	return node_load($id);
+}
+
+function getAllNodes($type, $haveWeight = false, $byCreated = false, $desc = false) {
+	$nodes = node_load_multiple(getNodeIds($type));
+	if ($haveWeight == TRUE) {
+		$w = array();
+		foreach ($nodes as $node) {
+			$w[getValue($node->field_weight)] = $node;
+			ksort($w);
+		}
+		return $w;
+	}
+
+	return node_load_multiple(getNodeIds($type, $byCreated, $desc));
+}
+
+function getNameFromTaxonomyValue($titem){
+	if(is_array($titem))
+		$titem = $titem["tid"];
+	$term = taxonomy_term_load($titem);
+	return $term->name;
+
+}
+
+function getUrlFromNid($nid){
+	if(!isset($nid) || $nid == "")
+		return null;
+	$options = array('absolute' => TRUE);
+	$nid = 1; // Node ID
+	return url('node/' . $nid, $options);
+}
+
+function getUrlImages($field_image, $type = "large") {
+	$imgs = array();
+	if (isset($type)) {
+		$t = $type;
+	}
+	foreach ($field_image['und'] as $img) {
+		array_push($imgs, image_style_url($t, $img['uri']));
+	}
+	return $imgs;
+}
+
+function getUrlImage($field_image, $type = "large") {
+	if(!$field_image)
+		$img = "public://default_images/no_image_thumb.gif";
+	else{
+		$img = $field_image['und'][0]['uri'];
+	}
+
+	if (isset($type)) {
+		$t = $type;
+	}
+
+	return image_style_url($t, $img);
+}
+
+function getUrlFile($field){
+	if(!$field)
+		return;
+	$uri = $field['und'][0]['uri'];
+	$url = file_create_url($uri);
+	$size =  $field['und'][0]["filesize"];
+	return array("url" => $url, "size" => $size);
+
+}
+
+function getValue($n) {
+	if (!isset($n)) {
+		return "";
+	}
+
+	if (is_array($n) && sizeof($n) == 0) {
+		return "";
+	}
+
+	if (!isset($n["und"])) {
+		return $n;
+	}
+
+	if (!isset($n["und"][0])) {
+		return $n["und"];
+	}
+
+	if (!isset($n["und"][0]['value'])) {
+		return $n["und"][0];
+	}
+
+	if(sizeof($n["und"]) == 1)
+		return $n["und"][0]['value'];
+	else{
+		$values = array();
+		foreach ($n["und"] as $i){
+			array_push($values, $i['value']);
+		}
+		return $values;
+	}
+
+}
+
+function getTemplateModule($module, $nameTmpl, $healthy = array(), $yummy = array()) {
+	$path = drupal_get_path('module', $module);
+	$html = file_get_contents($path . "/templates/" . $nameTmpl);
+	return str_ireplace($healthy, $yummy, $html);
+}
+
+function getTemplate($nameTmpl, $healthy = array(), $yummy = array()) {
+	$path = drupal_get_path('theme', 'esperia');
+	$html = file_get_contents($path . "/templates/" . $nameTmpl . ".html");
+	return str_ireplace($healthy, $yummy, $html);
+}
+
+function getUrlNode($nid) {
+	$options = array('absolute' => TRUE);
+	$url = url('node/' . $nid, $options);
+	return $url;
+}

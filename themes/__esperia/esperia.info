@@ -1,0 +1,30 @@
+
+name = Esperia Informatica
+description = A flexible, recolorable theme with many regions.
+package = Core
+version = VERSION
+core = 7.x
+
+stylesheets[all][] = plugins/owl-carousel/owl.carousel.css
+stylesheets[all][] = plugins/owl-carousel/owl.transitions.css
+stylesheets[all][] = plugins/owl-carousel/jackbox.min.css
+
+stylesheets[all][] = css/bootstrap.min.css
+stylesheets[all][] = css/theme-animate.css
+stylesheets[all][] = css/style.css
+
+scripts[] = plugins/jquery.queryloader2.min.js
+scripts[] = plugins/jquery.dotdotdot.js
+scripts[] = plugins/modernizr.js
+
+regions[content] = Content
+regions[footer] = Footer
+
+settings[shortcut_module_link] = 0
+
+
+; Information added by Drupal.org packaging script on 2015-10-14
+version = "7.40"
+project = "drupal"
+datestamp = "1444866674"
+
